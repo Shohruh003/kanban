@@ -13,11 +13,19 @@ export enum STATUS {
     status: STATUS;
   }
 
-  export interface CreatedData {
+  export interface ICreatedData {
     id: string;
     displayName: string;
     className: string;
     age: number;
     status: STATUS;
     photo: string;
+}
+
+export interface IEditFormData {
+  id: string;
+  displayName: string;
+  className: string;
+  age: number;
+  photo: string;
 }

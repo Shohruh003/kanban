@@ -13,16 +13,9 @@ import MuiButton from "/components/Mui/MuiButton/MuiButton";
 import styles from "./styles";
 import { CSSProperties } from "styled-components";
 import useStores from "/hooks/useStores";
-interface FormData {
-  id: string;
-  displayName: string;
-  className: string;
-  age: number;
-  photo: string;
-}
-
+import { IEditFormData } from "../../types";
 interface IEditContentProps {
-  card: FormData;
+  card: IEditFormData;
   humanWatchList?: number;
 }
 
@@ -39,18 +32,18 @@ const EditContent: FC<IEditContentProps> = ({ card }) => {
     age: yup.number().required(locale.formRequired),
   });
 
-  const methods = useForm<FormData>({
+  const methods = useForm<IEditFormData>({
     resolver: yupResolver(schema),
     mode: "onSubmit",
   });
 
-  const onSubmit = (data: FormData) => {
-    const updatedData: FormData = {
+  const onSubmit = async (data: IEditFormData) => {
+    const updatedData: IEditFormData = {
       ...card,
       displayName: data.displayName !== card.displayName ? data.displayName : card.displayName,
       className: data.className !== card.className ? data.className : card.className,
       age: data.age !== card.age ? data.age : card.age,
-      photo: files.length > 0 && files[0] instanceof File ? URL.createObjectURL(files[0]) : card.photo,
+      photo: files.length > 0 && files[0] instanceof File ? await filesToBase64(files) : card.photo,
     };
 
     if (card?.id) {
@@ -61,9 +54,25 @@ const EditContent: FC<IEditContentProps> = ({ card }) => {
     window.location.reload();
   };
 
-  const updateStoredDataById = (id: string, updatedData: FormData) => {
+  const filesToBase64 = (files: File[]): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = reject;
+      if(files.length > 0) {
+        const file = files[0];
+        if(file) {
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+  };
+
+  const updateStoredDataById = (id: string, updatedData: IEditFormData) => {
     const storedData = JSON.parse(localStorage.getItem("list") || "[]");
-    const updatedList = storedData.map((item: FormData) =>
+    const updatedList = storedData.map((item: IEditFormData) =>
       item.id === id ? { ...item, ...updatedData } : item
     );
     localStorage.setItem("list", JSON.stringify(updatedList));

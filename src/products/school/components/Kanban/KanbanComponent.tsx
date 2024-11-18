@@ -5,7 +5,7 @@ import {
   IBoardRow,
   KanbanView,
 } from "react-declarative";
-import { CreatedData, IAttendanceStudent, STATUS } from "../../types";
+import { IAttendanceStudent, ICreatedData, STATUS } from "../../types";
 import EditContent from "../HumanDetailedPopup/EditContent";
 import MuiButton from "/components/Mui/MuiButton/MuiButton";
 import styles from "./styles";
@@ -22,7 +22,7 @@ const KanbanComponent: React.FC = () => {
 
   const boardRef = useRef(null);
 
-  const [storedData, setStoredDataState] = useState<CreatedData[]>(() =>
+  const [storedData, setStoredDataState] = useState<ICreatedData[]>(() =>
     getStoredData("list", [])
   );
   const getItems = useCallback((): IBoardItem<IAttendanceStudent>[] => {

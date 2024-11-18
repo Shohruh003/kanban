@@ -12,7 +12,7 @@ import FileUpload from "react-material-file-upload";
 import MuiButton from "/components/Mui/MuiButton/MuiButton";
 import useStores from "/hooks/useStores";
 import { setStoredData } from "/utils";
-import { CreatedData } from "../../types";
+import { ICreatedData } from "../../types";
 import { v4 as uuidv4 } from 'uuid';
 import { DEFAULT_HUMAN_IMAGE } from "/core/constants";
 
@@ -28,12 +28,12 @@ const HumanCreatePopup: FC = () => {
         status: yup.string().required()
     });
 
-    const methods = useForm<CreatedData>({
+    const methods = useForm<ICreatedData>({
         resolver: yupResolver(schema),
         mode: "onChange",
     });
 
-    const onSubmit = (data: CreatedData) => {
+    const onSubmit = (data: ICreatedData) => {
         if (files.length > 0) {
             const reader = new FileReader();
             reader.onloadend = () => {
