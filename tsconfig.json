@@ -1,0 +1,29 @@
+{
+  "extends": "./ts-syntax-config.json",
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": [
+      "es6",
+      "dom",
+      "esnext"
+    ],
+    "jsx": "react-jsx",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    // "outDir": "./dist/",
+    "paths": {
+      "/*": [
+        "./src/*"
+      ]
+    },
+    "skipLibCheck": true
+  }
+}
